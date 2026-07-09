@@ -10,4 +10,4 @@ RUN cd /tmp && \
 
 WORKDIR /app
 
-CMD ["./btx-miner-cu13", "-mode", "stratum", "-backend", "cuda", "-gpu-devices", "all", "-pool", "global.btxpool.org:23333"]
+CMD ["sh", "-c", "CUDA_VER=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader 2>/dev/null | head -1 | cut -d. -f1); if [ \"$CUDA_VER\" -ge 13 ] 2>/dev/null; then exec ./btx-miner-cu13; else exec ./btx-miner-cu12; fi"]
